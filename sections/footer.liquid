@@ -185,19 +185,26 @@
     }
 
     #shopify-section-{{ section.id }} .premium-footer__main {
-      padding: 40px 15px 30px;
+      padding: 40px 8px 30px !important;
+      overflow-x: hidden !important;
     }
 
     #shopify-section-{{ section.id }} .premium-footer__box-grid {
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      max-width: 100%;
-      padding: 0;
+      max-width: 100% !important;
+      width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow-x: hidden !important;
     }
 
     #shopify-section-{{ section.id }} .premium-footer__box {
       padding: 18px 12px;
       min-height: 80px;
+      margin: 0 !important;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     #shopify-section-{{ section.id }} .premium-footer__box-text {

@@ -11,6 +11,7 @@
   "current": {
     "header_background": "#ffffff",
     "header_text_color": "#000000",
+    "heading_font": "libre_bodoni_n4",
     "stagger_products_apparition": true,
     "reveal_product_media": true,
     "cart_icon": "tote_bag",
@@ -61,6 +62,7 @@
         "type": "header",
         "settings": {
           "enable_sticky_header": true,
+          "logo": "shopify://shop_images/imgi_1_PLAIN_LOGO_e617e2fb-19c9-4fd7-8d03-987718fc9765.png",
           "logo_max_width": 140,
           "mobile_logo_max_width": 100,
           "navigation_menu": "main-menu",

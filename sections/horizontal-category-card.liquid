@@ -1,6 +1,6 @@
 {% comment %}
   Swipeable Horizontal Category Section
-  Modern premium design with tall rounded cards
+  Modern premium design with expand-on-hover animation
 {% endcomment %}
 
 <style>
@@ -55,33 +55,35 @@
 
   .category-grid {
     display: flex;
-    gap: 20px;
+    gap: 8px;
     padding-bottom: 8px;
   }
 
-  .category-grid:has(.category-card:hover) .category-card:not(:hover),
-  .category-grid:has(.category-cta-card:hover) .category-card,
-  .category-grid:has(.category-card:hover) .category-cta-card {
-    transform: scale(0.92);
-    opacity: 0.6;
+  /* Expand-on-hover effect - when hovering on grid, all cards shrink by default */
+  .category-grid:hover .category-card,
+  .category-grid:hover .category-cta-card {
+    width: 80px;
+    opacity: 0.7;
+  }
+
+  /* Hovered card expands to full width */
+  .category-grid:hover .category-card:hover,
+  .category-grid:hover .category-cta-card:hover {
+    width: 380px;
+    opacity: 1;
   }
 
   .category-card {
-    flex: 0 0 280px;
+    width: 280px;
     height: 420px;
-    border-radius: 20px;
+    border-radius: 24px;
     overflow: hidden;
     position: relative;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     background: #fff;
     cursor: pointer;
-  }
-
-  .category-card:hover {
-    transform: scale(1.08) translateY(-8px);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
-    z-index: 10;
+    flex-shrink: 0;
   }
 
   .category-card-image {
@@ -92,7 +94,7 @@
   }
 
   .category-card:hover .category-card-image {
-    transform: scale(1.08);
+    transform: scale(1.05);
   }
 
   .category-card-overlay {
@@ -102,6 +104,13 @@
     right: 0;
     padding: 28px 24px;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+    transition: opacity 0.3s ease;
+  }
+
+  /* Hide overlay text when card is collapsed */
+  .category-grid:hover .category-card:not(:hover) .category-card-overlay,
+  .category-grid:hover .category-cta-card:not(:hover) .category-cta-content {
+    opacity: 0;
   }
 
   .category-tag {
@@ -132,20 +141,20 @@
   }
 
   .category-cta-card {
-    flex: 0 0 280px;
+    width: 280px;
     height: 420px;
-    border-radius: 20px;
+    border-radius: 24px;
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
   }
 
   .category-cta-card::before {
@@ -157,14 +166,16 @@
     transition: opacity 0.4s ease;
   }
 
-  .category-cta-card:hover {
-    transform: scale(1.08) translateY(-8px);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
-    z-index: 10;
-  }
-
   .category-cta-card:hover::before {
     opacity: 1;
+  }
+
+  .category-cta-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    transition: opacity 0.3s ease;
   }
 
   .category-cta-icon {
@@ -211,8 +222,19 @@
 
     .category-card,
     .category-cta-card {
-      flex: 0 0 240px;
+      width: 240px;
       height: 360px;
+    }
+
+    /* Mobile: simpler hover effect */
+    .category-grid:hover .category-card,
+    .category-grid:hover .category-cta-card {
+      width: 200px;
+    }
+
+    .category-grid:hover .category-card:hover,
+    .category-grid:hover .category-cta-card:hover {
+      width: 280px;
     }
 
     .category-card-title {
@@ -262,14 +284,16 @@
         {% endfor %}
 
         <a href="{{ section.settings.view_all_link }}" class="category-cta-card">
-          <div class="category-cta-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="8" x2="12" y2="16"/>
-              <line x1="8" y1="12" x2="16" y2="12"/>
-            </svg>
+          <div class="category-cta-content">
+            <div class="category-cta-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="16"/>
+                <line x1="8" y1="12" x2="16" y2="12"/>
+              </svg>
+            </div>
+            <p class="category-cta-text">{{ section.settings.cta_text }}</p>
           </div>
-          <p class="category-cta-text">{{ section.settings.cta_text }}</p>
         </a>
       </div>
     </div>

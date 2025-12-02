@@ -194,6 +194,9 @@
       ],
       "name": "Category Carousel",
       "settings": {
+        "background_color": "#ffffff",
+        "heading_color": "#1a1a1a",
+        "description_color": "#666666",
         "heading": "Shop by Category",
         "description": "Discover our curated collections designed to inspire and elevate your everyday style.",
         "cta_text": "View All",

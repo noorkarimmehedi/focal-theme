@@ -146,6 +146,60 @@
         "button_text_color": "rgba(0,0,0,0)"
       }
     },
+    "horizontal_category_card_nh8rG6": {
+      "type": "horizontal-category-card",
+      "blocks": {
+        "category_MLU7Tz": {
+          "type": "category",
+          "settings": {
+            "title": "Women's Fashion",
+            "tag": "Trending",
+            "icon": "<path d=\"M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z\"></path>",
+            "link": ""
+          }
+        },
+        "category_txXdhB": {
+          "type": "category",
+          "settings": {
+            "title": "Men's Collection",
+            "tag": "New Arrivals",
+            "icon": "",
+            "link": ""
+          }
+        },
+        "category_jawbNi": {
+          "type": "category",
+          "settings": {
+            "title": "Accessories",
+            "tag": "Best Sellers",
+            "icon": "",
+            "link": ""
+          }
+        },
+        "category_cjRR9B": {
+          "type": "category",
+          "settings": {
+            "title": "Summer Styles",
+            "tag": "Seasonal",
+            "icon": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_MLU7Tz",
+        "category_txXdhB",
+        "category_jawbNi",
+        "category_cjRR9B"
+      ],
+      "name": "Category Carousel",
+      "settings": {
+        "heading": "Shop by Category",
+        "description": "Discover our curated collections designed to inspire and elevate your everyday style.",
+        "cta_text": "View All",
+        "view_all_link": ""
+      }
+    },
     "image-with-text": {
       "type": "image-with-text",
       "blocks": {
@@ -504,6 +558,7 @@
     "slideshow",
     "1764588401a77ff989",
     "featured-collections",
+    "horizontal_category_card_nh8rG6",
     "image-with-text",
     "shop-the-look",
     "blog-posts",

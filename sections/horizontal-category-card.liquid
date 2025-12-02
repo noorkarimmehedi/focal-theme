@@ -59,6 +59,13 @@
     padding-bottom: 8px;
   }
 
+  .category-grid:has(.category-card:hover) .category-card:not(:hover),
+  .category-grid:has(.category-cta-card:hover) .category-card,
+  .category-grid:has(.category-card:hover) .category-cta-card {
+    transform: scale(0.92);
+    opacity: 0.6;
+  }
+
   .category-card {
     flex: 0 0 280px;
     height: 420px;
@@ -66,14 +73,15 @@
     overflow: hidden;
     position: relative;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     background: #fff;
     cursor: pointer;
   }
 
   .category-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+    transform: scale(1.08) translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+    z-index: 10;
   }
 
   .category-card-image {
@@ -134,7 +142,7 @@
     justify-content: center;
     gap: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -150,8 +158,9 @@
   }
 
   .category-cta-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+    transform: scale(1.08) translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    z-index: 10;
   }
 
   .category-cta-card:hover::before {

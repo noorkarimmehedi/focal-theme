@@ -45,8 +45,6 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    margin: 0 -24px;
-    padding: 0 24px;
   }
 
   .category-scroll-wrapper::-webkit-scrollbar {
@@ -55,8 +53,10 @@
 
   .category-grid {
     display: flex;
-    gap: 8px;
+    gap: 12px;
     padding-bottom: 8px;
+    justify-content: center;
+    align-items: center;
   }
 
   /* Only shrink other cards when one is actively hovered */
@@ -64,25 +64,25 @@
   .category-cta-card:hover ~ .category-card,
   .category-card:has(~ .category-card:hover),
   .category-card:has(~ .category-cta-card:hover) {
-    width: 80px;
+    width: 100px;
     opacity: 0.6;
   }
 
   .category-cta-card:hover ~ .category-cta-card,
   .category-card:hover ~ .category-cta-card {
-    width: 80px;
+    width: 100px;
     opacity: 0.6;
   }
 
   /* Hovered card expands */
   .category-card:hover,
   .category-cta-card:hover {
-    width: 400px;
+    width: 500px;
   }
 
   .category-card {
-    width: 280px;
-    height: 420px;
+    width: 360px;
+    height: 480px;
     border-radius: 24px;
     overflow: hidden;
     position: relative;
@@ -154,8 +154,8 @@
   }
 
   .category-cta-card {
-    width: 280px;
-    height: 420px;
+    width: 360px;
+    height: 480px;
     border-radius: 24px;
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     display: flex;
@@ -230,6 +230,16 @@
     .category-description {
       text-align: left;
       max-width: 100%;
+    }
+
+    .category-scroll-wrapper {
+      overflow-x: auto;
+      margin: 0 -24px;
+      padding: 0 24px;
+    }
+
+    .category-grid {
+      justify-content: flex-start;
     }
 
     .category-card,

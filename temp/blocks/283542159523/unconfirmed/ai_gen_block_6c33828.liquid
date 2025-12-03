@@ -1,6 +1,815 @@
+{% doc %}
+  @prompt
+    create a  translucent glass morphism UI section where the card should be in the middle with a photo and when i will upload a removed background product photo it will create a beautiful section for me. all should be customizable from font to color to radius 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-glass-section-{{ ai_gen_id }} {
+    position: relative;
+    min-height: {{ block.settings.section_height }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    overflow: hidden;
+    background: {{ block.settings.background_gradient_start }};
+    background: linear-gradient(
+      {{ block.settings.gradient_angle }}deg,
+      {{ block.settings.background_gradient_start }} 0%,
+      {{ block.settings.background_gradient_end }} 100%
+    );
+  }
+
+  .ai-glass-section__background-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .ai-glass-section__blur-circle-{{ ai_gen_id }} {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur({{ block.settings.blur_amount }}px);
+    opacity: {{ block.settings.blur_opacity }};
+  }
+
+  .ai-glass-section__blur-circle-{{ ai_gen_id }}--1 {
+    width: {{ block.settings.circle_size_1 }}px;
+    height: {{ block.settings.circle_size_1 }}px;
+    background: {{ block.settings.circle_color_1 }};
+    top: {{ block.settings.circle_1_top }}%;
+    left: {{ block.settings.circle_1_left }}%;
+    animation: ai-glass-float-{{ ai_gen_id }}-1 {{ block.settings.animation_speed }}s ease-in-out infinite;
+  }
+
+  .ai-glass-section__blur-circle-{{ ai_gen_id }}--2 {
+    width: {{ block.settings.circle_size_2 }}px;
+    height: {{ block.settings.circle_size_2 }}px;
+    background: {{ block.settings.circle_color_2 }};
+    bottom: {{ block.settings.circle_2_bottom }}%;
+    right: {{ block.settings.circle_2_right }}%;
+    animation: ai-glass-float-{{ ai_gen_id }}-2 {{ block.settings.animation_speed | times: 1.2 }}s ease-in-out infinite;
+  }
+
+  .ai-glass-section__blur-circle-{{ ai_gen_id }}--3 {
+    width: {{ block.settings.circle_size_3 }}px;
+    height: {{ block.settings.circle_size_3 }}px;
+    background: {{ block.settings.circle_color_3 }};
+    top: {{ block.settings.circle_3_top }}%;
+    right: {{ block.settings.circle_3_right }}%;
+    animation: ai-glass-float-{{ ai_gen_id }}-3 {{ block.settings.animation_speed | times: 0.8 }}s ease-in-out infinite;
+  }
+
+  @keyframes ai-glass-float-{{ ai_gen_id }}-1 {
+    0%, 100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(30px, -30px);
+    }
+  }
+
+  @keyframes ai-glass-float-{{ ai_gen_id }}-2 {
+    0%, 100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(-40px, 20px);
+    }
+  }
+
+  @keyframes ai-glass-float-{{ ai_gen_id }}-3 {
+    0%, 100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(20px, 40px);
+    }
+  }
+
+  .ai-glass-card-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 2;
+    max-width: {{ block.settings.card_max_width }}px;
+    width: 100%;
+    padding: {{ block.settings.card_padding }}px;
+    background: {{ block.settings.glass_background }};
+    backdrop-filter: blur({{ block.settings.glass_blur }}px);
+    -webkit-backdrop-filter: blur({{ block.settings.glass_blur }}px);
+    border-radius: {{ block.settings.card_border_radius }}px;
+    border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    box-shadow: {{ block.settings.shadow_x }}px {{ block.settings.shadow_y }}px {{ block.settings.shadow_blur }}px {{ block.settings.shadow_color }};
+  }
+
+  .ai-glass-card__content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: {{ block.settings.content_gap }}px;
+  }
+
+  .ai-glass-card__image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    max-width: {{ block.settings.image_max_width }}px;
+    position: relative;
+  }
+
+  .ai-glass-card__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-glass-card__image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: {{ block.settings.placeholder_background }};
+    border-radius: {{ block.settings.image_border_radius }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-glass-card__image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-glass-card__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.7;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-glass-card__heading-{{ ai_gen_id }} {
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-weight: {{ block.settings.heading_font.weight }};
+    font-style: {{ block.settings.heading_font.style }};
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    text-align: {{ block.settings.text_align }};
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .ai-glass-card__text-{{ ai_gen_id }} {
+    font-family: {{ block.settings.text_font.family }}, {{ block.settings.text_font.fallback_families }};
+    font-weight: {{ block.settings.text_font.weight }};
+    font-style: {{ block.settings.text_font.style }};
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    text-align: {{ block.settings.text_align }};
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .ai-glass-card__button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    font-family: {{ block.settings.button_font.family }}, {{ block.settings.button_font.fallback_families }};
+    font-weight: {{ block.settings.button_font.weight }};
+    font-size: {{ block.settings.button_font_size }}px;
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    border: {{ block.settings.button_border_width }}px solid {{ block.settings.button_border_color }};
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-glass-card__button-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.button_hover_background }};
+    color: {{ block.settings.button_hover_text_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px {{ block.settings.button_hover_shadow }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-glass-section-{{ ai_gen_id }} {
+      min-height: {{ block.settings.section_height | times: 0.7 }}px;
+      padding: 40px 16px;
+    }
+
+    .ai-glass-card-{{ ai_gen_id }} {
+      padding: {{ block.settings.card_padding | times: 0.7 }}px;
+    }
+
+    .ai-glass-card__heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+    }
+
+    .ai-glass-card__text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+
+    .ai-glass-section__blur-circle-{{ ai_gen_id }}--1 {
+      width: {{ block.settings.circle_size_1 | times: 0.6 }}px;
+      height: {{ block.settings.circle_size_1 | times: 0.6 }}px;
+    }
+
+    .ai-glass-section__blur-circle-{{ ai_gen_id }}--2 {
+      width: {{ block.settings.circle_size_2 | times: 0.6 }}px;
+      height: {{ block.settings.circle_size_2 | times: 0.6 }}px;
+    }
+
+    .ai-glass-section__blur-circle-{{ ai_gen_id }}--3 {
+      width: {{ block.settings.circle_size_3 | times: 0.6 }}px;
+      height: {{ block.settings.circle_size_3 | times: 0.6 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-glass-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-glass-section__background-{{ ai_gen_id }}">
+    <div class="ai-glass-section__blur-circle-{{ ai_gen_id }} ai-glass-section__blur-circle-{{ ai_gen_id }}--1"></div>
+    <div class="ai-glass-section__blur-circle-{{ ai_gen_id }} ai-glass-section__blur-circle-{{ ai_gen_id }}--2"></div>
+    <div class="ai-glass-section__blur-circle-{{ ai_gen_id }} ai-glass-section__blur-circle-{{ ai_gen_id }}--3"></div>
+  </div>
+
+  <div class="ai-glass-card-{{ ai_gen_id }}">
+    <div class="ai-glass-card__content-{{ ai_gen_id }}">
+      <div class="ai-glass-card__image-wrapper-{{ ai_gen_id }}">
+        {% if block.settings.product_image %}
+          <img
+            src="{{ block.settings.product_image | image_url: width: 1000 }}"
+            alt="{{ block.settings.product_image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.product_image.width }}"
+            height="{{ block.settings.product_image.height }}"
+            class="ai-glass-card__image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          <div class="ai-glass-card__image-placeholder-{{ ai_gen_id }}">
+            {{ 'product-1' | placeholder_svg_tag }}
+            <div class="ai-glass-card__empty-state-{{ ai_gen_id }}">
+              Upload your product image
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-glass-card__heading-{{ ai_gen_id }}">
+          {{ block.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if block.settings.text != blank %}
+        <div class="ai-glass-card__text-{{ ai_gen_id }}">
+          {{ block.settings.text }}
+        </div>
+      {% endif %}
+
+      {% if block.settings.button_text != blank %}
+        <a
+          href="{{ block.settings.button_link }}"
+          class="ai-glass-card__button-{{ ai_gen_id }}"
+        >
+          {{ block.settings.button_text }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Glassmorphism card",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product image"
+    },
+    {
+      "type": "range",
+      "id": "image_max_width",
+      "min": 200,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Image maximum width",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "placeholder_background",
+      "label": "Placeholder background",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Premium Product"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description",
+      "default": "Discover our exclusive collection with stunning design and premium quality."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Content spacing",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Section background"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Minimum height",
+      "default": 700
+    },
+    {
+      "type": "color",
+      "id": "background_gradient_start",
+      "label": "Gradient start color",
+      "default": "#667eea"
+    },
+    {
+      "type": "color",
+      "id": "background_gradient_end",
+      "label": "Gradient end color",
+      "default": "#764ba2"
+    },
+    {
+      "type": "range",
+      "id": "gradient_angle",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "unit": "deg",
+      "label": "Gradient angle",
+      "default": 135
+    },
+    {
+      "type": "header",
+      "content": "Blur circles"
+    },
+    {
+      "type": "range",
+      "id": "blur_amount",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Blur intensity",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "blur_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Blur opacity",
+      "default": 0.6
+    },
+    {
+      "type": "range",
+      "id": "animation_speed",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "unit": "s",
+      "label": "Animation speed",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "circle_color_1",
+      "label": "Circle 1 color",
+      "default": "#ff6b6b"
+    },
+    {
+      "type": "range",
+      "id": "circle_size_1",
+      "min": 100,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "label": "Circle 1 size",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "circle_1_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Circle 1 top position",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "circle_1_left",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Circle 1 left position",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "circle_color_2",
+      "label": "Circle 2 color",
+      "default": "#4ecdc4"
+    },
+    {
+      "type": "range",
+      "id": "circle_size_2",
+      "min": 100,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "label": "Circle 2 size",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "circle_2_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Circle 2 bottom position",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "circle_2_right",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Circle 2 right position",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "circle_color_3",
+      "label": "Circle 3 color",
+      "default": "#ffd93d"
+    },
+    {
+      "type": "range",
+      "id": "circle_size_3",
+      "min": 100,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "label": "Circle 3 size",
+      "default": 260
+    },
+    {
+      "type": "range",
+      "id": "circle_3_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Circle 3 top position",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "circle_3_right",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Circle 3 right position",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Glass card style"
+    },
+    {
+      "type": "range",
+      "id": "card_max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Card maximum width",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Card padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "glass_background",
+      "label": "Glass background",
+      "default": "rgba(255, 255, 255, 0.1)"
+    },
+    {
+      "type": "range",
+      "id": "glass_blur",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Glass blur",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "rgba(255, 255, 255, 0.3)"
+    },
+    {
+      "type": "range",
+      "id": "shadow_x",
+      "min": -20,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Shadow horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "shadow_y",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Shadow vertical offset",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "shadow_blur",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Shadow blur",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Shadow color",
+      "default": "rgba(0, 0, 0, 0.2)"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading font",
+      "default": "sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 42
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "font_picker",
+      "id": "text_font",
+      "label": "Text font",
+      "default": "sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "font_picker",
+      "id": "button_font",
+      "label": "Button font",
+      "default": "sans-serif"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 25
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Background",
+      "default": "rgba(255, 255, 255, 0.2)"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Border color",
+      "default": "rgba(255, 255, 255, 0.5)"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Hover background",
+      "default": "rgba(255, 255, 255, 0.3)"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_shadow",
+      "label": "Hover shadow",
+      "default": "rgba(255, 255, 255, 0.3)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Glassmorphism card"
+    }
+  ]
+}
 {% endschema %}

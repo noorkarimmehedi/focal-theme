@@ -241,6 +241,64 @@
       ],
       "settings": {}
     },
+    "1764777024d3c7920d": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_fe1191a_yH7G7r": {
+          "type": "ai_gen_block_fe1191a",
+          "settings": {
+            "max_width": 1200,
+            "section_padding": 60,
+            "border_radius": 24,
+            "content_spacing": 24,
+            "background_color": "#000000",
+            "heading_color": "#ffffff",
+            "description_color": "#e0e0e0",
+            "heading": "<p>Next-Gen Innovation</p>",
+            "heading_size": 56,
+            "description": "<p>Experience the future of technology with cutting-edge features designed for modern life.</p>",
+            "description_size": 18,
+            "product_image": "shopify://shop_images/removed.png",
+            "image_shadow_x": 0,
+            "image_shadow_y": 20,
+            "image_shadow_blur": 40,
+            "image_shadow_color": "rgba(0, 0, 0, 0.3)",
+            "placeholder_gradient_start": "#1a1a1a",
+            "placeholder_gradient_end": "#2d2d2d",
+            "feature_spacing": 16,
+            "feature_padding": 18,
+            "feature_border_radius": 40,
+            "feature_bg_color": "#1a1a1a",
+            "feature_hover_bg_color": "#252525",
+            "feature_border_color": "#2d2d2d",
+            "feature_text_color": "#ffffff",
+            "feature_text_size": 16,
+            "icon_size": 44,
+            "icon_bg_color": "#ffffff",
+            "icon_color": "#000000",
+            "shadow_x": 0,
+            "shadow_y": 4,
+            "shadow_blur": 15,
+            "shadow_color": "rgba(0, 0, 0, 0.2)",
+            "feature_1_enabled": true,
+            "feature_1_text": "Advanced AI Processing",
+            "feature_2_enabled": true,
+            "feature_2_text": "Ultra-Fast Performance",
+            "feature_3_enabled": true,
+            "feature_3_text": "Premium Build Quality",
+            "feature_4_enabled": true,
+            "feature_4_text": "All-Day Battery Life",
+            "feature_5_enabled": true,
+            "feature_5_text": "5G Connectivity"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_fe1191a_yH7G7r"
+      ],
+      "settings": {}
+    },
     "176476843760369417": {
       "type": "_blocks",
       "settings": {}
@@ -708,6 +766,7 @@
     "1764588401a77ff989",
     "1764769766ef4e34a8",
     "176474831120bb5e68",
+    "1764777024d3c7920d",
     "176476843760369417",
     "featured-collections",
     "horizontal_category_card_nh8rG6",

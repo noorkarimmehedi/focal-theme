@@ -241,6 +241,51 @@
       ],
       "settings": {}
     },
+    "17648559542cd3f5ce": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_e4394c5_XqqACE": {
+          "type": "ai_gen_block_e4394c5",
+          "settings": {
+            "text_line_1": "Make you look",
+            "text_line_2": "and",
+            "text_line_3": "feel glowy",
+            "text_line_4": "",
+            "text_line_5": "and healthy",
+            "show_image_1": true,
+            "image_1_link": "",
+            "show_image_2": true,
+            "image_2_link": "",
+            "show_image_3": true,
+            "image_3_link": "",
+            "text_font": "libre_bodoni_n4",
+            "font_size": 64,
+            "text_color": "#000000",
+            "background_color": "#ffffff",
+            "placeholder_color": "#fce4ec",
+            "image_width": 120,
+            "image_height": 80,
+            "border_width": 1,
+            "border_color": "#E0E0E0",
+            "hover_border_color": "#CCCCCC",
+            "border_radius": 8,
+            "shadow_horizontal": 0,
+            "shadow_vertical": 4,
+            "shadow_blur": 8,
+            "shadow_opacity": 0,
+            "max_width": 1000,
+            "section_padding": 20,
+            "spacing": 24,
+            "line_spacing": 20
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_e4394c5_XqqACE"
+      ],
+      "settings": {}
+    },
     "1764777024d3c7920d": {
       "type": "_blocks",
       "blocks": {
@@ -759,6 +804,7 @@
     "1764588401a77ff989",
     "1764769766ef4e34a8",
     "176474831120bb5e68",
+    "17648559542cd3f5ce",
     "1764777024d3c7920d",
     "176476843760369417",
     "featured-collections",

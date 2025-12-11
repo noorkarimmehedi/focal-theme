@@ -53,6 +53,7 @@
     display: block;
     text-decoration: none;
     flex-shrink: 0;
+    cursor: pointer;
   }
 
   .fashion-text__image-wrapper-{{ ai_gen_id }} {
@@ -91,6 +92,41 @@
     opacity: 0.3;
   }
 
+  /* Hover Preview Styles */
+  .fashion-text__preview-{{ ai_gen_id }} {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    transition: opacity {{ block.settings.preview_transition_speed }}s ease, 
+                transform {{ block.settings.preview_transition_speed }}s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform, opacity;
+  }
+
+  .fashion-text__preview-{{ ai_gen_id }}.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .fashion-text__preview-inner-{{ ai_gen_id }} {
+    background: {{ block.settings.preview_background }};
+    border-radius: {{ block.settings.preview_border_radius }}px;
+    padding: {{ block.settings.preview_padding }}px;
+    box-shadow: 0 {{ block.settings.preview_shadow_blur }}px {{ block.settings.preview_shadow_spread }}px rgba(0, 0, 0, {{ block.settings.preview_shadow_opacity }}),
+                0 0 0 {{ block.settings.preview_border_width }}px {{ block.settings.preview_border_color }};
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+
+  .fashion-text__preview-image-{{ ai_gen_id }} {
+    width: {{ block.settings.preview_width }}px;
+    height: {{ block.settings.preview_height }}px;
+    object-fit: cover;
+    border-radius: calc({{ block.settings.preview_border_radius }}px - 4px);
+    display: block;
+  }
+
   @media screen and (max-width: 749px) {
     .fashion-text__text-{{ ai_gen_id }},
     .fashion-text__box-{{ ai_gen_id }} {
@@ -114,6 +150,15 @@
     .fashion-text__container-{{ ai_gen_id }} {
       gap: {{ block.settings.line_spacing | times: 0.6 }}px;
     }
+
+    .fashion-text__preview-image-{{ ai_gen_id }} {
+      width: calc({{ block.settings.preview_width }}px * 0.8);
+      height: calc({{ block.settings.preview_height }}px * 0.8);
+    }
+
+    .fashion-text__preview-inner-{{ ai_gen_id }} {
+      padding: calc({{ block.settings.preview_padding }}px * 0.8);
+    }
   }
 {% endstyle %}
 
@@ -134,6 +179,7 @@
         <a 
           href="{{ block.settings.image_1_link }}" 
           class="fashion-text__image-link-{{ ai_gen_id }}"
+          data-preview-image="{% if block.settings.image_1 %}{{ block.settings.image_1 | image_url: width: 800 }}{% endif %}"
           {% if block.settings.image_1_link == blank %}aria-disabled="true" tabindex="-1"{% endif %}
         >
           <div class="fashion-text__image-wrapper-{{ ai_gen_id }}">
@@ -173,6 +219,7 @@
         <a 
           href="{{ block.settings.image_3_link }}" 
           class="fashion-text__image-link-{{ ai_gen_id }}"
+          data-preview-image="{% if block.settings.image_3 %}{{ block.settings.image_3 | image_url: width: 800 }}{% endif %}"
           {% if block.settings.image_3_link == blank %}aria-disabled="true" tabindex="-1"{% endif %}
         >
           <div class="fashion-text__image-wrapper-{{ ai_gen_id }}">
@@ -205,6 +252,7 @@
         <a 
           href="{{ block.settings.image_4_link }}" 
           class="fashion-text__image-link-{{ ai_gen_id }}"
+          data-preview-image="{% if block.settings.image_4 %}{{ block.settings.image_4 | image_url: width: 800 }}{% endif %}"
           {% if block.settings.image_4_link == blank %}aria-disabled="true" tabindex="-1"{% endif %}
         >
           <div class="fashion-text__image-wrapper-{{ ai_gen_id }}">
@@ -239,7 +287,115 @@
     </div>
 
   </div>
+
+  <!-- Preview Card -->
+  <div class="fashion-text__preview-{{ ai_gen_id }}" id="fashion-preview-card-{{ ai_gen_id }}">
+    <div class="fashion-text__preview-inner-{{ ai_gen_id }}">
+      <img class="fashion-text__preview-image-{{ ai_gen_id }}" id="fashion-preview-image-{{ ai_gen_id }}" alt="">
+    </div>
+  </div>
 </div>
+
+<script>
+(function() {
+  const navId = '{{ ai_gen_id }}';
+  const imageLinks = document.querySelectorAll('.fashion-text__image-link-' + navId);
+  const previewCard = document.getElementById('fashion-preview-card-' + navId);
+  const previewImage = document.getElementById('fashion-preview-image-' + navId);
+  
+  if (!previewCard || !previewImage) return;
+  
+  const isMobile = window.innerWidth <= 749;
+  const cardWidth = ({{ block.settings.preview_width }} + ({{ block.settings.preview_padding }} * 2)) * (isMobile ? 0.8 : 1);
+  const cardHeight = ({{ block.settings.preview_height }} + ({{ block.settings.preview_padding }} * 2)) * (isMobile ? 0.8 : 1);
+  const offsetY = 20;
+  
+  function updatePosition(e) {
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+    
+    if (!clientX || !clientY) return;
+    
+    let x = clientX - cardWidth / 2;
+    let y = clientY - cardHeight - offsetY;
+    
+    if (x + cardWidth > window.innerWidth - 20) {
+      x = window.innerWidth - cardWidth - 20;
+    }
+    if (x < 20) {
+      x = 20;
+    }
+    
+    if (y < 20) {
+      y = clientY + offsetY;
+    }
+    
+    previewCard.style.left = x + 'px';
+    previewCard.style.top = y + 'px';
+  }
+  
+  function showPreview(link, e) {
+    const imageUrl = link.getAttribute('data-preview-image');
+    
+    if (imageUrl && imageUrl !== '') {
+      previewImage.src = imageUrl;
+      previewImage.alt = link.querySelector('img') ? link.querySelector('img').alt : '';
+      previewCard.classList.add('visible');
+      updatePosition(e);
+    }
+  }
+  
+  function hidePreview() {
+    previewCard.classList.remove('visible');
+  }
+  
+  imageLinks.forEach(function(link) {
+    // Desktop events
+    link.addEventListener('mouseenter', function(e) {
+      showPreview(this, e);
+    });
+    
+    link.addEventListener('mousemove', function(e) {
+      if (previewCard.classList.contains('visible')) {
+        updatePosition(e);
+      }
+    });
+    
+    link.addEventListener('mouseleave', function() {
+      hidePreview();
+    });
+    
+    // Mobile touch events
+    link.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      showPreview(this, e);
+    });
+    
+    link.addEventListener('touchmove', function(e) {
+      if (previewCard.classList.contains('visible')) {
+        updatePosition(e);
+      }
+    });
+    
+    link.addEventListener('touchend', function() {
+      setTimeout(hidePreview, 300);
+    });
+  });
+  
+  // Close preview when touching outside
+  document.addEventListener('touchstart', function(e) {
+    let isLink = false;
+    imageLinks.forEach(function(link) {
+      if (link.contains(e.target)) {
+        isLink = true;
+      }
+    });
+    if (!isLink && previewCard.classList.contains('visible')) {
+      hidePreview();
+    }
+  });
+})();
+</script>
 
 {% schema %}
 {
@@ -548,7 +704,112 @@
       "max": 1,
       "step": 0.1,
       "label": "Shadow opacity",
+      "default": 0.1
+    },
+    {
+      "type": "header",
+      "content": "Hover preview settings"
+    },
+    {
+      "type": "range",
+      "id": "preview_width",
+      "min": 200,
+      "max": 600,
+      "step": 20,
+      "unit": "px",
+      "label": "Preview width",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "preview_height",
+      "min": 200,
+      "max": 600,
+      "step": 20,
+      "unit": "px",
+      "label": "Preview height",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "preview_padding",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Preview card padding",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "preview_background",
+      "label": "Preview card background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "preview_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Preview border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "preview_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Preview border width",
       "default": 1
+    },
+    {
+      "type": "color",
+      "id": "preview_border_color",
+      "label": "Preview border color",
+      "default": "rgba(255, 255, 255, 0.1)"
+    },
+    {
+      "type": "range",
+      "id": "preview_shadow_blur",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Preview shadow blur",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "preview_shadow_spread",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Preview shadow spread",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "preview_shadow_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Preview shadow opacity",
+      "default": 0.8
+    },
+    {
+      "type": "range",
+      "id": "preview_transition_speed",
+      "min": 0.1,
+      "max": 1,
+      "step": 0.1,
+      "unit": "s",
+      "label": "Preview transition speed",
+      "default": 0.3
     },
     {
       "type": "header",

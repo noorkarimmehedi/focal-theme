@@ -243,6 +243,7 @@
     },
     "scrolling_product_grid_EeEjBE": {
       "type": "scrolling-product-grid",
+      "disabled": true,
       "name": "Scrolling Product Grid",
       "settings": {
         "heading": "<p>let's<br/>scroll.</p>",

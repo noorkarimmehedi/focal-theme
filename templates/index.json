@@ -299,7 +299,7 @@
       "name": "Expandable Cards",
       "settings": {
         "section_title": "Featured Content",
-        "title_font": "sans_serif_n4",
+        "title_font": "baskervville_n4",
         "title_size": 42,
         "title_color": "#000000",
         "background_color": "#ffffff",

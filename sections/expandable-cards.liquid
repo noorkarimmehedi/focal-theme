@@ -18,6 +18,8 @@
     font-style: {{ section.settings.title_font.style }};
     font-size: {{ section.settings.title_size }}px;
     color: {{ section.settings.title_color }};
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   {{ section.settings.title_font | font_face: font_display: 'swap' }}
@@ -173,12 +175,12 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
-    width: 2rem;
-    height: 2rem;
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
-    border-radius: 50%;
-    color: white;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0;
+    color: #000;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -188,7 +190,7 @@
   }
 
   .card-video-close:hover {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(255, 255, 255, 1);
   }
 
   .card-play-text {
@@ -235,6 +237,8 @@
     font-size: 0.875rem;
     color: #4b5563;
     margin: 0;
+    line-height: 1.6;
+    font-weight: 400;
   }
 
   .card-author {
@@ -247,7 +251,7 @@
   .card-author-image {
     width: 3rem;
     height: 3rem;
-    border-radius: 50%;
+    border-radius: 0;
     overflow: hidden;
     border: 1px solid #e5e7eb;
   }
@@ -259,15 +263,20 @@
   }
 
   .card-author-name {
-    font-weight: 600;
+    font-weight: 500;
     color: #111827;
     margin: 0;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
   }
 
   .card-author-role {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: #6b7280;
     margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 </style>
 

@@ -260,6 +260,7 @@
           "type": "card",
           "settings": {
             "title": "Fashion",
+            "image": "shopify://shop_images/imgi_13_AnkitaJain29Mar25_1762.jpg",
             "video_url": "",
             "description": "Explore the latest trends in fashion at our exclusive showcase, featuring renowned designers and unique styles.",
             "author_name": "Sarah Chen",
@@ -270,6 +271,7 @@
           "type": "card",
           "settings": {
             "title": "Gallery Art",
+            "image": "shopify://shop_images/imgi_11_AnkitaJain29Mar25_1764.jpg",
             "video_url": "",
             "description": "Immerse yourself in the world of art at our gallery, showcasing stunning pieces from emerging and established artists.",
             "author_name": "Marcus Johnson",
@@ -280,6 +282,7 @@
           "type": "card",
           "settings": {
             "title": "Dreams",
+            "image": "shopify://shop_images/AJ6541_db4c1464-d5a8-48e0-9ad5-fa06850e0e42.webp",
             "video_url": "",
             "description": "Join us on a journey through dreams, exploring the subconscious and the art of dreaming.",
             "author_name": "Emily Rodriguez",

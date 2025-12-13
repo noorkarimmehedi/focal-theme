@@ -359,15 +359,17 @@
     const cards = container.querySelectorAll('.expandable-card');
     let selectedCard = null;
 
-    // Center scroll on load for mobile only
-    if (container && window.innerWidth <= 768) {
-      // Scroll to first card centered
-      if (cards.length > 0) {
-        cards[0].scrollIntoView({
-          behavior: 'auto',
-          block: 'nearest',
-          inline: 'center'
-        });
+    // Center scroll on load - show 3rd card (index 2) by default
+    if (container) {
+      const cardToShow = cards[2] || cards[0]; // Show 3rd card, fallback to 1st if less than 3 cards
+      if (cardToShow) {
+        setTimeout(() => {
+          cardToShow.scrollIntoView({
+            behavior: 'auto',
+            block: 'nearest',
+            inline: 'center'
+          });
+        }, 100);
       }
     }
     

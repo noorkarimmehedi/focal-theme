@@ -4,10 +4,23 @@
 {% endcomment %}
 
 <style>
-  .expandable-cards-section {
+  .expandable-cards-section-{{ section.id }} {
     width: 100%;
-    padding: 1rem;
+    padding: 3rem 1rem;
+    background-color: {{ section.settings.background_color }};
   }
+
+  .expandable-cards-section-{{ section.id }} .section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-family: {{ section.settings.title_font.family }}, {{ section.settings.title_font.fallback_families }};
+    font-weight: {{ section.settings.title_font.weight }};
+    font-style: {{ section.settings.title_font.style }};
+    font-size: {{ section.settings.title_size }}px;
+    color: {{ section.settings.title_color }};
+  }
+
+  {{ section.settings.title_font | font_face: font_display: 'swap' }}
 
   .expandable-cards-container {
     display: flex;
@@ -32,9 +45,9 @@
     flex-shrink: 0;
     cursor: pointer;
     overflow: hidden;
-    border-radius: 1rem;
-    border: 1px solid #e5e7eb;
-    background: white;
+    border-radius: {{ section.settings.card_radius }}px;
+    border: 1px solid {{ section.settings.card_border_color }};
+    background: {{ section.settings.card_background }};
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     scroll-snap-align: start;
@@ -164,7 +177,7 @@
     right: 0;
     height: 100%;
     width: 0;
-    background: white;
+    background: {{ section.settings.card_background }};
     opacity: 0;
     overflow: hidden;
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
@@ -233,7 +246,11 @@
   }
 </style>
 
-<div class="expandable-cards-section">
+<div class="expandable-cards-section-{{ section.id }}">
+  {% if section.settings.section_title != blank %}
+    <h2 class="section-title">{{ section.settings.section_title }}</h2>
+  {% endif %}
+  
   <div class="expandable-cards-container" id="expandable-cards-{{ section.id }}">
     {% for block in section.blocks %}
       <div class="expandable-card" data-card-id="{{ block.id }}" {{ block.shopify_attributes }}>
@@ -397,7 +414,72 @@
 {% schema %}
 {
   "name": "Expandable Cards",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Featured Content"
+    },
+    {
+      "type": "font_picker",
+      "id": "title_font",
+      "label": "Title Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Size",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Card Settings"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card Border Color",
+      "default": "#e5e7eb"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Card Border Radius",
+      "default": 16
+    }
+  ],
   "blocks": [
     {
       "type": "card",

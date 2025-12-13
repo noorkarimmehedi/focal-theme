@@ -303,6 +303,10 @@
         "title_size": 42,
         "title_color": "#000000",
         "background_color": "#ffffff",
+        "padding_top": 4,
+        "padding_bottom": 16,
+        "padding_left": 16,
+        "padding_right": 16,
         "card_background": "#ffffff",
         "card_border_color": "#e5e7eb",
         "card_radius": 8
